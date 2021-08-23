@@ -50,7 +50,7 @@ public class JDBCMySQLDemo {
             	student.setNumeroIdentificacion(rs.getInt(1));
             }
             END OF CREATE*/
-            // BEGIN UPDATE
+            /* BEGIN UPDATE
             Students student = new Students();
             student.setNumeroIdentificacion(3);
             student.setNombre("Animado");
@@ -60,7 +60,16 @@ public class JDBCMySQLDemo {
 			// ya que nosotros mismos le estamos asignando al identificacion a la bd
 
 			ps.executeUpdate();
-			
+			*/
+            /* Delete */
+            Students student = new Students();
+            student.setNumeroIdentificacion(3);
+ 
+            
+			PreparedStatement ps = connection.prepareStatement(prepareDeletetUsuario(student));// para el update no se necesita el Statement.RETURN_GENERATED_KEYS la llave
+			// ya que nosotros mismos le estamos asignando al identificacion a la bd
+
+			ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,6 +99,13 @@ public class JDBCMySQLDemo {
     	insertQuery.append("UPDATE usuarios SET nombre ='").append(student.getNombre())   			
     				.append("', apellido = '").append(student.getApellido())
     				.append("' WHERE id =").append(student.getNumeroIdentificacion());
+    	return insertQuery.toString();
+    }
+    
+    public static String prepareDeletetUsuario(Students student) {
+    	StringBuilder insertQuery = new StringBuilder();
+    	insertQuery.append("DELETE FROM usuarios WHERE id= ").append(student.getNumeroIdentificacion());   			
+
     	return insertQuery.toString();
     }
    }
