@@ -31,17 +31,18 @@ public class JDBCMySQLDemo {
         Statement statement = null; 
          
     
-        String query = "SELECT * FROM usuarios";
+        //String query = "SELECT * FROM usuarios";
         try {           
             connection = JDBCMySQLConnection.getConnection();
             //statement = connection.createStatement();
             Students student = new Students();					// metodo de students creado por mi
-            student.setNombre("Monica");
+            student.setNombre("sandra");
             student.setApellido("Benjumea");
             
 			PreparedStatement ps = connection.prepareStatement(prepareInsertUsuario(student) , Statement.RETURN_GENERATED_KEYS);// protocolo para entregar un estudiante y poder hacer acciones en BD
 			//								.prepareStatement prepara el query segun la base de datos que se este usando
 			ps.executeUpdate();
+			
             rs = ps.getGeneratedKeys();
              
             if(rs.next()) {
