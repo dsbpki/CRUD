@@ -35,6 +35,7 @@ public class JDBCMySQLDemo {
         try {           
             connection = JDBCMySQLConnection.getConnection();
             //statement = connection.createStatement();
+            /* BEGIN CREATE
             Students student = new Students();					// metodo de students creado por mi
             student.setNombre("sandra");
             student.setApellido("Benjumea");
@@ -48,6 +49,19 @@ public class JDBCMySQLDemo {
             if(rs.next()) {
             	student.setNumeroIdentificacion(rs.getInt(1));
             }
+            END OF CREATE*/
+            // BEGIN UPDATE
+            Students student = new Students();
+            student.setNumeroIdentificacion(3);
+            student.setNombre("Animado");
+            student.setApellido("Rondon");
+            
+			PreparedStatement ps = connection.prepareStatement(prepareUpdatetUsuario(student));// para el update no se necesita el Statement.RETURN_GENERATED_KEYS la llave
+			// ya que nosotros mismos le estamos asignando al identificacion a la bd
+
+			ps.executeUpdate();
+			
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -63,11 +77,20 @@ public class JDBCMySQLDemo {
     }
     
     public static String prepareInsertUsuario(Students student) {
-    	StringBuilder insertQuery = new StringBuilder();
+    	StringBuilder insertQuery = new StringBuilder();// construye un string, que se le entrega a 
+    	// mysql como query
     	insertQuery.append("INSERT INTO usuarios(nombre,apellido) VALUES(");
     	insertQuery.append("'").append(student.getNombre()).append("', '").append(student.getApellido()).append("');");
     	return insertQuery.toString();
     	
+    }
+    
+    public static String prepareUpdatetUsuario(Students student) {
+    	StringBuilder insertQuery = new StringBuilder();
+    	insertQuery.append("UPDATE usuarios SET nombre ='").append(student.getNombre())   			
+    				.append("', apellido = '").append(student.getApellido())
+    				.append("' WHERE id =").append(student.getNumeroIdentificacion());
+    	return insertQuery.toString();
     }
    }
  
